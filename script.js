@@ -128,14 +128,14 @@ function draw() {
 function DynamicSnakeSpeed() {
     if (drawUpdate > maxSpeed) {
         let newSpeed = drawUpdate;
-        let emoji = "🐢";
+        let emoji = "0";
         
-        if (score >= 5 && score < 10) { newSpeed = 250; emoji = "🐇"; } 
-        else if (score >= 10 && score < 15) { newSpeed = 200; emoji = "🐇"; } 
-        else if (score >= 15 && score < 20) { newSpeed = 150; emoji = "🐎"; } 
-        else if (score >= 20 && score < 25) { newSpeed = 100; emoji = "🚀"; } 
-        else if (score >= 25 && score < 30) { newSpeed = 60; emoji = "⚡"; } 
-        else if (score >= 30) { newSpeed = 40; emoji = "🔥"; }
+        if (score >= 5 && score < 10) { newSpeed = 250; emoji = "1"; } 
+        else if (score >= 10 && score < 15) { newSpeed = 200; emoji = "2"; } 
+        else if (score >= 15 && score < 20) { newSpeed = 150; emoji = "3"; } 
+        else if (score >= 20 && score < 25) { newSpeed = 100; emoji = "4"; } 
+        else if (score >= 25 && score < 30) { newSpeed = 60; emoji = "5"; } 
+        else if (score >= 30) { newSpeed = 40; emoji = "6"; }
         
         if (newSpeed < drawUpdate) {
             drawUpdate = newSpeed;

@@ -1,119 +1,252 @@
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  100% {
+    transform: scale(1.05);
+    filter: brightness(1.3);
+  }
+}
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
 body {
-    margin: 0;
-    background-color: #111;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
-    position: relative;
-    color: white;
+  margin: 0;
+  background-color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: "Arial Black", "Helvetica Neue", sans-serif;
+  overflow: hidden;
+  position: relative;
+  color: #FFFFFF;
 }
 
 .background-text {
-    position: absolute;
-    font-size: 100px;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.05);
-    text-align: center;
-    z-index: 0;
-    user-select: none;
-    pointer-events: none;
-    top: 10vh;
+  position: absolute;
+  font-size: 15vw;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.1);
+  text-align: center;
+  z-index: 0;
+  user-select: none;
+  pointer-events: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.background-shapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.background-shapes .shape {
+  position: absolute;
+  bottom: -150px;
+  background-color: transparent;
+  border: 3px solid #FF0055;
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.4), inset 0 0 10px rgba(255, 0, 85, 0.2);
+  animation: float 10s infinite linear;
+}
+.background-shapes .shape.shape-1 {
+  width: 80px;
+  height: 80px;
+  left: 15%;
+  animation-duration: 7s;
+  border-color: #00FFFF;
+  box-shadow: 0 0 15px #00FFFF;
+}
+.background-shapes .shape.shape-2 {
+  width: 120px;
+  height: 120px;
+  left: 75%;
+  animation-duration: 12s;
+  animation-delay: 1s;
+  border-radius: 50%;
+}
+.background-shapes .shape.shape-3 {
+  width: 50px;
+  height: 50px;
+  left: 45%;
+  animation-duration: 6s;
+  animation-delay: 3s;
+  transform: rotate(45deg);
+}
+
+.menu-container {
+  z-index: 10;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.menu-container .game-title {
+  font-size: 5rem;
+  line-height: 0.9;
+  margin: 0;
+  letter-spacing: -3px;
+  text-transform: uppercase;
+  color: white;
+  text-shadow: 4px 4px 0px #000;
+  animation: pulse 0.4s infinite alternate ease-in-out;
+}
+.menu-container .game-title span {
+  color: #FF0055;
+}
+.menu-container .subtitle {
+  font-size: 1.2rem;
+  color: #00FFFF;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+.menu-container .start-btn {
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #111111;
+  background-color: #00FFFF;
+  padding: 15px 50px;
+  border: none;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.menu-container .start-btn:hover {
+  background-color: white;
+  box-shadow: 0 0 40px #00FFFF;
+  transform: scale(1.1) rotate(-2deg);
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+.menu-container .start-btn:active {
+  transform: scale(0.95);
 }
 
 .game-container {
-    position: relative;
-    z-index: 1;
-    border: 2px solid #333;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+  position: relative;
+  z-index: 1;
+  border: 3px solid #00FFFF;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4), inset 0 0 10px rgba(0, 255, 255, 0.2);
+  background-color: #000;
+}
+.game-container canvas {
+  display: block;
+  background-color: #000;
+}
+.game-container .score, .game-container .timer, .game-container .speed {
+  position: absolute;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+}
+.game-container .score {
+  top: -40px;
+  left: 0;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5);
+}
+.game-container .timer {
+  top: -40px;
+  right: 0;
+  color: #00FFFF;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
+  font-size: 1.5rem;
+}
+.game-container .speed {
+  bottom: -40px;
+  left: 0;
+  color: #FF0055;
+  text-shadow: 0 0 10px rgba(255, 0, 85, 0.7), 0 0 20px rgba(255, 0, 85, 0.5);
+}
+.game-container .pause {
+  position: absolute;
+  bottom: -65px;
+  left: 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  text-decoration: none;
 }
 
-canvas {
-    display: block;
-    background-color: black;
+.game-over-screen {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 2px solid #FF0055;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+.game-over-screen .game-over-title {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  color: #FF0055;
+  text-shadow: 0 0 10px rgba(255, 0, 85, 0.7), 0 0 20px rgba(255, 0, 85, 0.5);
+  animation: pulse 0.5s infinite alternate;
+}
+.game-over-screen .final-score {
+  font-family: "Courier New", monospace;
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 30px;
+}
+.game-over-screen .game-over-buttons {
+  display: flex;
+  gap: 20px;
+}
+.game-over-screen .game-over-buttons button, .game-over-screen .game-over-buttons a {
+  padding: 10px 25px;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  font-family: "Arial Black", "Helvetica Neue", sans-serif;
+  transition: transform 0.2s;
+  text-transform: uppercase;
+}
+.game-over-screen .game-over-buttons .retry-btn {
+  background-color: #00FFFF;
+  color: #111111;
+  box-shadow: 0 0 15px #00FFFF;
+}
+.game-over-screen .game-over-buttons .retry-btn:hover {
+  background-color: white;
+  box-shadow: 0 0 30px white;
+  transform: scale(1.1);
+}
+.game-over-screen .game-over-buttons .menu-btn {
+  background-color: transparent;
+  color: #FFFFFF;
+  border: 2px solid #FFFFFF;
+}
+.game-over-screen .game-over-buttons .menu-btn:hover {
+  background-color: #FF0055;
+  border-color: #FF0055;
+  box-shadow: 0 0 20px #FF0055;
+  transform: scale(1.1);
 }
 
-.timer {
-    position: absolute;
-    top: -35px;
-    right: 0px;
-    color: #0f0;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.score {
-    position: absolute;
-    top: -35px;
-    left: 0px;
-    color: rgba(255, 255, 255);
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.speed {
-    position: absolute;
-    bottom: -35px;
-    left: 0px;
-    color: rgba(93, 0, 255);
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.pause {
-    text-decoration: underline;
-    position: absolute;
-    bottom: -65px;
-    left: 0px;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 16px;
-}
-/* --- Estilos para el Menú --- */
-
-.menu-container {
-    text-align: center;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.game-title {
-    font-size: 80px;
-    color: #0f0; /* Verde neón */
-    margin: 0;
-    text-shadow: 4px 4px 0px #000, 0 0 20px rgba(0, 255, 0, 0.5);
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.instructions {
-    color: #ccc;
-    font-size: 18px;
-    margin-bottom: 30px;
-}
-
-/* Estilo del botón */
-.start-btn {
-    text-decoration: none;
-    background-color: #0f0;
-    color: black;
-    padding: 15px 40px;
-    font-size: 24px;
-    font-weight: bold;
-    border-radius: 5px;
-    border: 2px solid #0a0;
-    transition: all 0.2s ease;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-}
-
-/* Efecto al pasar el mouse por encima */
-.start-btn:hover {
-    background-color: #fff;
-    color: #000;
-    transform: scale(1.1); /* Crece un poco */
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-    cursor: pointer;
-}
+/*# sourceMappingURL=styles.css.map */

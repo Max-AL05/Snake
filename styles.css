@@ -1,0 +1,119 @@
+body {
+    margin: 0;
+    background-color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+    position: relative;
+    color: white;
+}
+
+.background-text {
+    position: absolute;
+    font-size: 100px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.05);
+    text-align: center;
+    z-index: 0;
+    user-select: none;
+    pointer-events: none;
+    top: 10vh;
+}
+
+.game-container {
+    position: relative;
+    z-index: 1;
+    border: 2px solid #333;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+}
+
+canvas {
+    display: block;
+    background-color: black;
+}
+
+.timer {
+    position: absolute;
+    top: -35px;
+    right: 0px;
+    color: #0f0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.score {
+    position: absolute;
+    top: -35px;
+    left: 0px;
+    color: rgba(255, 255, 255);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.speed {
+    position: absolute;
+    bottom: -35px;
+    left: 0px;
+    color: rgba(93, 0, 255);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.pause {
+    text-decoration: underline;
+    position: absolute;
+    bottom: -65px;
+    left: 0px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+}
+/* --- Estilos para el Menú --- */
+
+.menu-container {
+    text-align: center;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.game-title {
+    font-size: 80px;
+    color: #0f0; /* Verde neón */
+    margin: 0;
+    text-shadow: 4px 4px 0px #000, 0 0 20px rgba(0, 255, 0, 0.5);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.instructions {
+    color: #ccc;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* Estilo del botón */
+.start-btn {
+    text-decoration: none;
+    background-color: #0f0;
+    color: black;
+    padding: 15px 40px;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px solid #0a0;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+/* Efecto al pasar el mouse por encima */
+.start-btn:hover {
+    background-color: #fff;
+    color: #000;
+    transform: scale(1.1); /* Crece un poco */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+}

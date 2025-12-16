@@ -1,0 +1,144 @@
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const box = 20;
+const maxSpeed = 10;
+let snake = [{ x: 160, y: 160 }];
+let direction = "RIGHT";
+let food = spawnFood();
+let score = 0;
+let canChangeDirection = true;
+
+let drawUpdate = 300;
+const scoreText = document.getElementById("score");
+const comparision = document.getElementById("speed");
+
+let timeLeft = 120;
+const timerE1 = document.getElementById("timer");
+
+document.addEventListener("keydown", changeDirection);
+
+const timerInterval = setInterval(() => {
+    timeLeft--;
+    const min = Math.floor(timeLeft / 60);
+    const sec = timeLeft % 60;
+    timerE1.textContent = `${min}:${sec < 10 ? "0" : ""}${sec}`;
+
+    if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        clearInterval(game);
+        alert("¡Se acabó el tiempo! Score: " + score);
+        location.reload();
+    }
+}, 1000);
+
+function changeDirection(event) {
+    const key = event.keyCode;
+    if (!canChangeDirection && key != 32) return;
+
+    if (key == 32) {
+        alert("Juego pausado. Presiona Aceptar para continuar.");
+        return;
+    }
+
+    if (key === 37 && direction !== "RIGHT") direction = "LEFT";
+    if (key === 38 && direction !== "DOWN") direction = "UP";
+    if (key === 39 && direction !== "LEFT") direction = "RIGHT";
+    if (key === 40 && direction !== "UP") direction = "DOWN";
+
+    canChangeDirection = false;
+}
+
+function collision(head, array) {
+    return array.some(segment => segment.x === head.x && segment.y === head.y);
+}
+
+function spawnFood() {
+    const x = Math.floor(Math.random() * (canvas.width / box)) * box;
+    const y = Math.floor(Math.random() * (canvas.height / box)) * box;
+    return { x, y };
+}
+
+function draw() {
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = (i == 0) ? "#0f0" : "#0a0";
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+        ctx.strokeStyle = "#000";
+        ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+    }
+
+    let headX = snake[0].x;
+    let headY = snake[0].y;
+
+    if (direction == "LEFT") headX -= box;
+    if (direction == "RIGHT") headX += box;
+    if (direction == "UP") headY -= box;
+    if (direction == "DOWN") headY += box;
+
+    if (headX < 0 || headY < 0 || headX >= canvas.width || headY >= canvas.height || collision({ x: headX, y: headY }, snake)) {
+        clearInterval(game);
+        clearInterval(timerInterval);
+        alert("Game Over! Score: " + score);
+        location.reload();
+        return;
+    }
+
+    if (headX == food.x && headY == food.y) {
+        score++;
+        food = spawnFood();
+        scoreText.textContent = `|${score} puntos|`;
+        DynamicSnakeSpeed();
+    } else {
+        snake.pop();
+    }
+
+    const newHead = { x: headX, y: headY };
+    snake.unshift(newHead);
+
+    ctx.fillStyle = "#f00";
+    ctx.fillRect(food.x, food.y, box, box);
+
+    canChangeDirection = true;
+}
+
+function DynamicSnakeSpeed() {
+    if (drawUpdate > maxSpeed) {
+        let newSpeed = drawUpdate;
+        let emoji = "🐢";
+
+        if (score >= 5 && score < 10) {
+            newSpeed = 250;
+            emoji = "🐇";
+        } else if (score >= 10 && score < 15) {
+            newSpeed = 200;
+            emoji = "🐇";
+        } else if (score >= 15 && score < 20) {
+            newSpeed = 150;
+            emoji = "🐎";
+        } else if (score >= 20 && score < 25) {
+            newSpeed = 100;
+            emoji = "🚀";
+        } else if (score >= 25 && score < 30) {
+            newSpeed = 60;
+            emoji = "⚡";
+        } else if (score >= 30) {
+            newSpeed = 40;
+            emoji = "🔥";
+        }
+
+        if (newSpeed < drawUpdate) {
+            drawUpdate = newSpeed;
+            clearInterval(game);
+            game = setInterval(draw, drawUpdate);
+
+            comparision.textContent = `Velocidad actual: ${emoji}`;
+
+            timeLeft += 10;
+        }
+    }
+}
+
+let game = setInterval(draw, drawUpdate);

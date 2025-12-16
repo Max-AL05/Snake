@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game</title>
+    <title>Snake Game - JS&B Style</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
+
+    <audio id="gameMusic" loop></audio>
+
+    <div id="vignetteEffect" class="vignette"></div>
 
     <div class="game-container">
         <canvas id="gameCanvas" width="400" height="400"></canvas>
-
+        
         <div class="score" id="score">Score: 0</div>
-        <div class="speed" id="speed">Nivel de velocidad: 0</div>
+        <div class="speed" id="speed">Nivel de Velocidad: 0</div>
         <div class="timer" id="timer">2:00</div>
 
         <div id="gameOverScreen" class="game-over-screen">
-        <h2 class="game-over-title">GAME OVER</h2>
-        <p class="final-score" id="finalScoreText">Puntaje final: 0</p>
-        <div class="game-over-buttons">
-            <button onclick="location.reload()" class="retry-btn">Reiniciar</button>
-            <a href="menu.html" class="menu-btn">Menú</a>
-        </div>
+            <h2 class="game-over-title">GAME OVER</h2>
+            <p class="final-score" id="finalScoreText">Puntaje final: 0</p>
+            <div class="game-over-buttons">
+                <button onclick="location.reload()" class="retry-btn">REINICIAR</button>
+                <a href="menu.html" class="menu-btn">MENÚ</a>
+            </div>
         </div>
 
         <div id="pauseScreen" class="pause-screen">
             <h2 class="pause-title">PAUSA</h2>
         </div>
-        
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>

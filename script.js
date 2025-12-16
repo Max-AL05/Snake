@@ -1,11 +1,14 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+const scoreText = document.getElementById("score");
+const comparision = document.getElementById("speed");
+const timerE1 = document.getElementById("timer");
 const gameOverScreen = document.getElementById("gameOverScreen");
 const finalScoreText = document.getElementById("finalScoreText");
-
 const pauseScreen = document.getElementById("pauseScreen");
-let isPaused = false;
+const audioPlayer = document.getElementById("gameMusic");
+const vignette = document.getElementById("vignetteEffect");
 
 const box = 20;
 const maxSpeed = 10;
@@ -14,15 +17,61 @@ let direction = "RIGHT";
 let food = spawnFood();
 let score = 0;
 let canChangeDirection = true;
-
 let drawUpdate = 300;
-const scoreText = document.getElementById("score");
-const comparision = document.getElementById("speed");
-
 let timeLeft = 120;
-const timerE1 = document.getElementById("timer");
+let isPaused = false;
+
+const playlist = [
+    "track1.mp3", 
+    "track2.mp3", 
+    "track3.mp3"
+];
+
+function startMusic() {
+    if (!audioPlayer) return;
+
+    const randomSong = playlist[Math.floor(Math.random() * playlist.length)];
+    audioPlayer.src = "sounds/" + randomSong;
+    audioPlayer.volume = 0.4;
+    
+    const playPromise = audioPlayer.play();
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            console.log("Autoplay bloqueado. Esperando interacción.");
+            document.addEventListener('keydown', () => audioPlayer.play(), { once: true });
+        });
+    }
+}
+
+startMusic();
 
 document.addEventListener("keydown", changeDirection);
+
+function changeDirection(event) {
+    const key = event.keyCode;
+
+    if (key == 32) {
+        isPaused = !isPaused; 
+        if (isPaused) {
+            pauseScreen.style.display = "flex";
+            if(audioPlayer) audioPlayer.pause();
+        } else {
+            pauseScreen.style.display = "none";
+            if(audioPlayer) audioPlayer.play();
+        }
+        return;
+    }
+
+    if (isPaused) return;
+    if (!canChangeDirection) return;
+    
+    if (key === 37 && direction !== "RIGHT") direction = "LEFT";
+    if (key === 38 && direction !== "DOWN") direction = "UP";
+    if (key === 39 && direction !== "LEFT") direction = "RIGHT";
+    if (key === 40 && direction !== "UP") direction = "DOWN";
+
+    canChangeDirection = false;
+}
 
 const timerInterval = setInterval(() => {
     if (isPaused) return;
@@ -37,32 +86,6 @@ const timerInterval = setInterval(() => {
     }
 }, 1000);
 
-function changeDirection(event) {
-    const key = event.keyCode;
-
-    if (key == 32) {
-        isPaused = !isPaused; 
-
-        if (isPaused) {
-            pauseScreen.style.display = "flex";
-        } else {
-            pauseScreen.style.display = "none";
-        }
-        return;
-    }
-
-    if (isPaused) return;
-
-    if (!canChangeDirection) return;
-    
-    if (key === 37 && direction !== "RIGHT") direction = "LEFT";
-    if (key === 38 && direction !== "DOWN") direction = "UP";
-    if (key === 39 && direction !== "LEFT") direction = "RIGHT";
-    if (key === 40 && direction !== "UP") direction = "DOWN";
-
-    canChangeDirection = false;
-}
-
 function collision(head, array) {
     return array.some(segment => segment.x === head.x && segment.y === head.y);
 }
@@ -73,19 +96,25 @@ function spawnFood() {
     return { x, y };
 }
 
+function triggerVignette() {
+    vignette.classList.remove("active");
+
+    void vignette.offsetWidth;
+
+    vignette.classList.add("active");
+}
+
 function draw() {
     if (isPaused) return;
 
-    ctx.fillStyle = "#000"; 
-    ctx.shadowBlur = 0; 
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < snake.length; i++) {
         ctx.fillStyle = (i == 0) ? "#FFFFFF" : "#00FFFF";
-        
         ctx.shadowBlur = 15;
-        ctx.shadowColor = "#00FFFF"; 
-        
+        ctx.shadowColor = "#00FFFF";
         ctx.fillRect(snake[i].x, snake[i].y, box, box);
         
         ctx.strokeStyle = "#000"; 
@@ -110,6 +139,7 @@ function draw() {
         food = spawnFood();
         scoreText.textContent = `${score} PUNTOS`;
         DynamicSnakeSpeed();
+        triggerVignette();
     } else {
         snake.pop();
     }
@@ -118,7 +148,7 @@ function draw() {
     snake.unshift(newHead);
 
     ctx.fillStyle = "#FF0055";
-    ctx.shadowBlur = 20; 
+    ctx.shadowBlur = 20;
     ctx.shadowColor = "#FF0055";
     ctx.fillRect(food.x, food.y, box, box);
 
@@ -141,7 +171,7 @@ function DynamicSnakeSpeed() {
             drawUpdate = newSpeed;
             clearInterval(game);
             game = setInterval(draw, drawUpdate);
-            comparision.textContent = `Velocidad actual: ${emoji}`; 
+            comparision.textContent = `Velocidad: ${emoji}`; 
             timeLeft += 10; 
         }
     }
@@ -151,8 +181,12 @@ function showGameOver() {
     clearInterval(game);
     clearInterval(timerInterval);
     
-    finalScoreText.textContent = "Puntaje final: " + score;
+    if(audioPlayer) {
+        audioPlayer.pause();
+        audioPlayer.currentTime = 0;
+    }
     
+    finalScoreText.textContent = "Puntaje final: " + score;
     gameOverScreen.style.display = "flex";
 }
 

@@ -8,6 +8,10 @@
 </head>
 <body>
 
+    <audio id="menuMusic" loop>
+        <source src="sounds/menu.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="background-shapes">
         <div class="shape shape-1"></div>
         <div class="shape shape-2"></div>
@@ -19,10 +23,26 @@
         <p class="subtitle">Evita el rosa. Come el ritmo.</p>
         
         <a href="index.html" class="start-btn">JUGAR</a>
-        
         <a href="instructions.html" class="controls-btn">CÓMO JUGAR</a>
     </div>
-    
+
+    <script>
+        const music = document.getElementById("menuMusic");
+        
+        music.volume = 0.5;
+
+        const playPromise = music.play();
+
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("El navegador bloqueó el autoplay. Esperando interacción...");
+                
+                document.body.addEventListener('click', () => {
+                    music.play();
+                }, { once: true });
+            });
+        }
+    </script>
 
 </body>
 </html>

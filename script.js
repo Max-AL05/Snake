@@ -4,6 +4,9 @@ const ctx = canvas.getContext("2d");
 const gameOverScreen = document.getElementById("gameOverScreen");
 const finalScoreText = document.getElementById("finalScoreText");
 
+const pauseScreen = document.getElementById("pauseScreen");
+let isPaused = false;
+
 const box = 20;
 const maxSpeed = 10;
 let snake = [{ x: 160, y: 160 }];
@@ -22,6 +25,8 @@ const timerE1 = document.getElementById("timer");
 document.addEventListener("keydown", changeDirection);
 
 const timerInterval = setInterval(() => {
+    if (isPaused) return;
+
     timeLeft--;
     const min = Math.floor(timeLeft / 60);
     const sec = timeLeft % 60;
@@ -34,12 +39,22 @@ const timerInterval = setInterval(() => {
 
 function changeDirection(event) {
     const key = event.keyCode;
-    if (!canChangeDirection && key != 32) return;
-    
+
     if (key == 32) {
-        alert("Juego pausado. Presiona Aceptar para continuar.");
+        isPaused = !isPaused; 
+
+        if (isPaused) {
+            pauseScreen.style.display = "flex";
+        } else {
+            pauseScreen.style.display = "none";
+        }
         return;
     }
+
+    if (isPaused) return;
+
+    if (!canChangeDirection) return;
+    
     if (key === 37 && direction !== "RIGHT") direction = "LEFT";
     if (key === 38 && direction !== "DOWN") direction = "UP";
     if (key === 39 && direction !== "LEFT") direction = "RIGHT";
@@ -59,6 +74,8 @@ function spawnFood() {
 }
 
 function draw() {
+    if (isPaused) return;
+
     ctx.fillStyle = "#000"; 
     ctx.shadowBlur = 0; 
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -78,7 +95,6 @@ function draw() {
     let headX = snake[0].x;
     let headY = snake[0].y;
 
-    // Lógica de movimiento
     if (direction == "LEFT") headX -= box;
     if (direction == "RIGHT") headX += box;
     if (direction == "UP") headY -= box;
@@ -92,7 +108,7 @@ function draw() {
     if (headX == food.x && headY == food.y) {
         score++;
         food = spawnFood();
-        scoreText.textContent = `|${score} PUNTOS|`;
+        scoreText.textContent = `${score} PUNTOS`;
         DynamicSnakeSpeed();
     } else {
         snake.pop();

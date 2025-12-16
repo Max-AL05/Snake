@@ -1,3 +1,4 @@
+/* sass --watch styles.scss:styles.css */
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -247,6 +248,38 @@ body {
   border-color: #FF0055;
   box-shadow: 0 0 20px #FF0055;
   transform: scale(1.1);
+}
+
+.pause-screen {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00FFFF;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 30;
+}
+.pause-screen .pause-title {
+  font-size: 4rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: #00FFFF;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+.pause-screen .pause-subtitle {
+  font-family: "Courier New", monospace;
+  font-size: 1.2rem;
+  color: white;
+  margin-top: 20px;
+  text-transform: uppercase;
+  animation: pulse 1s infinite alternate;
 }
 
 /*# sourceMappingURL=styles.css.map */

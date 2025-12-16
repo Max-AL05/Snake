@@ -1,3 +1,5 @@
+/* sass --watch styles.scss:styles.css */
+
 $color-bg: #111111;
 $color-primary: #00FFFF;
 $color-danger: #FF0055;
@@ -250,5 +252,38 @@ body {
                 transform: scale(1.1);
             }
         }
+    }
+}
+
+.pause-screen {
+    display: none;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 2px solid $color-primary;
+    
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+
+    .pause-title {
+        font-size: 4rem;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        @include neon-text($color-primary);
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .pause-subtitle {
+        font-family: $font-hud;
+        font-size: 1.2rem;
+        color: white;
+        margin-top: 20px;
+        text-transform: uppercase;
+        animation: pulse 1s infinite alternate;
     }
 }

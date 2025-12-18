@@ -9,6 +9,8 @@ $color-dim: rgba(255, 255, 255, 0.1);
 $font-main: 'Arial Black', 'Helvetica Neue', sans-serif;
 $font-hud: 'Courier New', monospace;
 
+$menu-element-width: 300px;
+
 @mixin neon-text($color) {
     color: $color;
     text-shadow: 0 0 10px rgba($color, 0.7), 0 0 20px rgba($color, 0.5);
@@ -117,13 +119,42 @@ body {
         margin-bottom: 30px;
     }
 
+    .name-input {
+        width: $menu-element-width;
+        box-sizing: border-box;
+        
+        background-color: rgba(0, 0, 0, 0.5);
+        border: 2px solid #555;
+        border-radius: 5px;
+        padding: 15px;
+        font-family: $font-hud;
+        font-size: 1.2rem;
+        color: $color-primary;
+        text-align: center;
+        outline: none;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        
+        &::placeholder { color: rgba(255, 255, 255, 0.3); }
+        &:focus {
+            border-color: $color-primary;
+            box-shadow: 0 0 15px rgba($color-primary, 0.5);
+            transform: scale(1.05);
+        }
+    }
+
     .start-btn {
+        width: $menu-element-width;
+        box-sizing: border-box;
+        display: block;
+        text-align: center;
+        
         text-decoration: none;
         font-size: 1.5rem;
         font-weight: bold;
         color: $color-bg;
         background-color: $color-primary;
-        padding: 15px 50px;
+        padding: 15px 0;
         border: none;
         transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         
@@ -134,7 +165,6 @@ body {
             letter-spacing: 2px;
             cursor: pointer;
         }
-        
         &:active { transform: scale(0.95); }
     }
 }
@@ -180,6 +210,18 @@ body {
         color: rgba(255,255,255,0.5);
         font-size: 0.9rem;
         text-decoration: none;
+    }
+    .player-label {
+        position: absolute;
+        top: -65px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        @include neon-text($color-primary);
+        letter-spacing: 2px;
     }
 }
 
@@ -384,22 +426,27 @@ body {
 }
 
 .controls-btn {
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: bold;
-    color: $color-text;
-    border: 2px solid $color-text;
-    padding: 10px 40px;
-    margin-top: 15px;
-    transition: all 0.3s;
-    background: transparent;
+        width: $menu-element-width;
+        box-sizing: border-box;
+        display: block;
+        text-align: center;
 
-    &:hover {
-        background-color: $color-text;
-        color: $color-bg;
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: bold;
+        color: $color-text;
+        border: 2px solid $color-text;
+        padding: 15px 0;
+        margin-top: 5px;
+        transition: all 0.3s;
+        background: transparent;
+
+        &:hover {
+            background-color: $color-text;
+            color: $color-bg;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
     }
-}
 
 .back-btn {
     display: inline-block;

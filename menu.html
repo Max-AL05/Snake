@@ -22,12 +22,27 @@
         <h1 class="game-title">SNAKE<br><span>BEATS</span></h1>
         <p class="subtitle">Evita el rosa. Come el ritmo.</p>
         
-        <a href="index.html" class="start-btn">JUGAR</a>
+        <input type="text" id="playerNameInput" class="name-input" placeholder="TU NOMBRE" maxlength="12">
+
+        <a href="#" onclick="startGame()" class="start-btn">JUGAR</a>
+        
         <a href="instructions.html" class="controls-btn">CÓMO JUGAR</a>
     </div>
 
     <script>
+        function startGame() {
+            const input = document.getElementById("playerNameInput");
+            const name = input.value.trim() || "JUGADOR";
+            
+            localStorage.setItem("snakePlayerName", name);
+
+            window.location.href = "index.html";
+        }
+
         const music = document.getElementById("menuMusic");
+    </script>
+
+    <script>
         
         music.volume = 0.5;
 

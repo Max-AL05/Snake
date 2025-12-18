@@ -9,6 +9,9 @@ const finalScoreText = document.getElementById("finalScoreText");
 const pauseScreen = document.getElementById("pauseScreen");
 const audioPlayer = document.getElementById("gameMusic");
 const vignette = document.getElementById("vignetteEffect");
+const playerNameDisplay = document.getElementById("playerNameDisplay");
+const savedName = localStorage.getItem("snakePlayerName") || "JUGADOR";
+playerNameDisplay.textContent = savedName;
 
 const box = 20;
 const maxSpeed = 10;

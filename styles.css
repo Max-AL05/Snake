@@ -118,13 +118,40 @@ body {
   text-transform: uppercase;
   margin-bottom: 30px;
 }
+.menu-container .name-input {
+  width: 300px;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid #555;
+  border-radius: 5px;
+  padding: 15px;
+  font-family: "Courier New", monospace;
+  font-size: 1.2rem;
+  color: #00FFFF;
+  text-align: center;
+  outline: none;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+.menu-container .name-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+.menu-container .name-input:focus {
+  border-color: #00FFFF;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+  transform: scale(1.05);
+}
 .menu-container .start-btn {
+  width: 300px;
+  box-sizing: border-box;
+  display: block;
+  text-align: center;
   text-decoration: none;
   font-size: 1.5rem;
   font-weight: bold;
   color: #111111;
   background-color: #00FFFF;
-  padding: 15px 50px;
+  padding: 15px 0;
   border: none;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -183,6 +210,19 @@ body {
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.9rem;
   text-decoration: none;
+}
+.game-container .player-label {
+  position: absolute;
+  top: -65px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #00FFFF;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
+  letter-spacing: 2px;
 }
 
 .game-over-screen {
@@ -376,13 +416,17 @@ body {
   }
 }
 .controls-btn {
+  width: 300px;
+  box-sizing: border-box;
+  display: block;
+  text-align: center;
   text-decoration: none;
   font-size: 1rem;
   font-weight: bold;
   color: #FFFFFF;
   border: 2px solid #FFFFFF;
-  padding: 10px 40px;
-  margin-top: 15px;
+  padding: 15px 0;
+  margin-top: 5px;
   transition: all 0.3s;
   background: transparent;
 }

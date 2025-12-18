@@ -184,6 +184,7 @@ function showGameOver() {
     clearInterval(game);
     clearInterval(timerInterval);
     
+    // Detener música si existe
     if(audioPlayer) {
         audioPlayer.pause();
         audioPlayer.currentTime = 0;
@@ -191,6 +192,37 @@ function showGameOver() {
     
     finalScoreText.textContent = "Puntaje final: " + score;
     gameOverScreen.style.display = "flex";
+
+    // --- NUEVO: GUARDAR EN BACKEND ---
+    saveScoreToBackend(score);
+}
+
+// Nueva función para hablar con PHP
+function saveScoreToBackend(finalScore) {
+    // 1. Recuperar nombre (o usar "Anónimo" si falla algo)
+    const playerName = localStorage.getItem("snakePlayerName") || "JUGADOR";
+
+    // 2. Preparar los datos
+    const data = {
+        name: playerName,
+        score: finalScore
+    };
+
+    // 3. Enviar a PHP usando fetch()
+    fetch('save_score.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log("Respuesta del servidor:", result);
+    })
+    .catch(error => {
+        console.error("Error al guardar puntuación:", error);
+    });
 }
 
 let game = setInterval(draw, drawUpdate);
